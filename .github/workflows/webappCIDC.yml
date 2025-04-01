@@ -1,6 +1,6 @@
 name: WebappBT build test
 
-on: [push]
+#on: [push]
 
 
 env:
