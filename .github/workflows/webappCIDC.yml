@@ -26,6 +26,6 @@ jobs:
       run: dotnet test ./SoftwareTravis.sln --configuration Release
     - name: dotnet publish
       run: |
-        dotnet publish ./src/Web/Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
-        cd ${{env.DOTNET_ROOT}}/myapp
+        dotnet publish ./src/Web/Web.csproj -c Release -o ${{'env.DOTNET_ROOT'}}/myapp
+        cd ${'env.DOTNET_ROOT'}}}/myapp
         zip -r ../app.zip .
