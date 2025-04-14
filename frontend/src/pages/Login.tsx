@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 //import logo from "../../assets/logo.png";
-import "./Card.css"; // Importa el archivo CSS
+import "./Login.css"; // Importa el archivo CSS
 
 const Login = () => {
   const [user, setUser] = useState("");
