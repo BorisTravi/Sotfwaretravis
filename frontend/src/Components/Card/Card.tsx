@@ -3,19 +3,19 @@ import React, { useState } from "react";
 import "./Card.css"; // Importa el archivo CSS
 
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
+  const [userlError, setUserError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     // Validaciones
-    if (!email || !/\S+@\S+\.\S+/.test(email)) {
-      setEmailError("Ingresa un email o un número de teléfono válido.");
+    if (!user || !/\S+@\S+\.\S+/.test(user)) {
+      setUserError("Ingrese un usuario.");
     } else {
-      setEmailError("");
+      setUserError("");
     }
 
     if (!password || password.length < 4 || password.length > 60) {
@@ -25,8 +25,8 @@ const Login = () => {
     }
 
     // Si no hay errores, proceder con el inicio de sesión
-    if (!emailError && !passwordError) {
-      console.log("Email:", email);
+    if (!userlError && !passwordError) {
+      console.log("User:", user);
       console.log("Password:", password);
       // Aquí podrías agregar la lógica para autenticar al usuario
     }
@@ -46,12 +46,12 @@ const Login = () => {
             <input
               type="text"
               id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email o número de celular"
-              className={emailError ? "input-error" : ""}
+              value={user}
+              onChange={(e) => setUser(e.target.value)}
+              placeholder="Usuario"
+              className={userlError ? "input-error" : ""}
             />
-            {emailError && <p className="error-message">{emailError}</p>}
+            {userlError && <p className="error-message">{userlError}</p>}
           </div>
           <div className="form-group">
             <input
