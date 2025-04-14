@@ -1,7 +1,6 @@
 name: WebappBT build test
 
-#on: [push]
-
+on: [push]
 
 env:
   RESOURCE-GROUP: rg-webapp-BT
@@ -9,23 +8,94 @@ env:
   TEMPLATE-FILE: infra/webapp.tf
   SUBSCRIPTION-ID: ffd83f72-93a8-454d-9e4f-ef231298f429
   WEBAPP-NAME: sistema-webapp-BT
-  
+
 jobs:
+  #Construir, probar y publicar un proyecto web .NET en un repositorio
   buildandtest:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '8.0.x'
-        dotnet-quality: 'preview'
-    - name: Build with dotnet
-      run: dotnet build ./SoftwareTravis.sln --configuration Release
-    - name: Test with dotnet
-      run: dotnet test ./SoftwareTravis.sln --configuration Release
-    - name: dotnet publish
-      run: |
-        dotnet publish ./src/Web/Web.csproj -c Release -o ${{'env.DOTNET_ROOT'}}/myapp
-        cd ${'env.DOTNET_ROOT'}}}/myapp
-        zip -r ../app.zip .
+      #revisa el repositorio
+      - uses: actions/checkout@v4
+      #Preparar el ejecutor para la versión .NET SDK deseada
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+          dotnet-quality: "preview"
+      #Construir/Probar/Publicar el proyecto .net
+      - name: Build with dotnet
+        run: dotnet build ./SoftwareTravis.sln --configuration Release
+      - name: Test with dotnet
+        run: dotnet test ./SoftwareTravis.sln --configuration Release
+      - name: dotnet publish
+        run: |
+          dotnet publish ./Api/Api.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
+          cd ${{env.DOTNET_ROOT}}/myapp
+          zip -r ../app.zip .
+      # cargar los artefactos del código del sitio web publicado
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: .net-app
+          path: ${{env.DOTNET_ROOT}}/app.zip
+
+      # cargar la plantilla de bíceps como artefactos para el próximo trabajo
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: bicep-template
+          path: ${{ env.TEMPLATE-FILE }}
+
+  # Utilice Bicep para implementar infraestructura + Publicar aplicación web
+  deploy:
+    runs-on: ubuntu-latest
+    needs: buildandtest
+    environment:
+      name: "Development"
+    steps:
+      #Descargar los archivos de publicación creados en el trabajo anterior
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: .net-app
+          path: .net-app
+
+     #Descarga las plantillas de bíceps del trabajo anterior
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: bicep-template
+          path: bicep-template
+
+#Inicie sesión en su suscripción de Azure utilizando una entidad de servicio (credenciales almacenadas como secreto de GitHub en el repositorio)
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALES }}
+
+# Implementar Azure WebApp mediante el archivo Bicep
+      - name: deploy
+        uses: azure/arm-deploy@v2
+        with:
+          subscriptionId: ${{ env.SUBSCRIPTION-ID }}
+          resourceGroupName: ${{ env.RESOURCE-GROUP }}
+          template: bicep-template/webapp.tf
+          parameters: "webAppName=${{ env.WEBAPP-NAME }} location=${{ env.LOCATION }}"
+          failOnStdErr: false
+
+# Publicar sitio web en Azure App Service (WebApp)
+# Paso deshabilitado debido a un problema que a veces impide encontrar el sitio: https://github.com/microsoft/pipelines-appservice-lib/issues/56. Implementar mediante la CLI.
+      - name: Publish Website to WebApp
+        if: false #Disable step due to comment above
+        uses: Azure/webapps-deploy@v3
+        with:
+          type: ZIP
+          app-name: ${{ env.WEBAPP-NAME  }}
+          package: .net-app/app.zip
+
+# Publicar un sitio web en Azure App Service mediante CLI (WebApp)
+      - name: Publish Website to WebApp
+        uses: Azure/cli@v2
+        with:
+          inlineScript: |
+            az webapp deploy --name ${{ env.WEBAPP-NAME }} --resource-group ${{ env.RESOURCE-GROUP }} --src-path .net-app/app.zip --type zip
