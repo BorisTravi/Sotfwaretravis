@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import logo from "../../assets/logo.png";
+import logo from "../assets/logo.png"; // Asegúrate de que la ruta sea correcta
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useTheme } from "@mui/material/styles"; //
 import {
@@ -179,7 +179,7 @@ const Facturacion: React.FC = () => {
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
-        <img src="'./assets/logo.png" alt="Logo" style={{ height: 40, marginRight: 16 }} />
+        <img src={logo} alt="Logo" style={{ height: 40, marginRight: 16 }} />
         <Typography variant="h5" sx={{ fontWeight: "bold", color: "#1e3a8a" }}>
           Facturación Electrónica
         </Typography>
