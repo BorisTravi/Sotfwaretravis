@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import EditIcon from "@mui/icons-material/Edit";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import Logo from "../assets/logo.png";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useTheme } from "@mui/material/styles"; //
 import {
   Box,
@@ -18,6 +21,7 @@ import {
   Select,
   InputLabel,
   FormControl,
+  Divider,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -174,222 +178,257 @@ const Facturacion: React.FC = () => {
         boxShadow: theme.palette.mode === "dark" ? 1 : 2,
       }}
     >
-      <Typography
-        variant="h5"
-        sx={{
-          mb: 3,
-          color: "primary.main",
-          fontWeight: "bold",
-        }}
-      >
-        Facturación Electrónica
-      </Typography>
+      <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
+        <img src={Logo} alt="Logo" style={{ height: 40, marginRight: 16 }} />
+        <Typography variant="h5" sx={{ fontWeight: "bold", color: "#1e3a8a" }}>
+          Facturación Electrónica
+        </Typography>
+      </Box>
 
       {/* Información de la factura */}
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
-          gap: 2,
-          mb: 3,
-        }}
-      >
-        <FormControl fullWidth size="small">
-          <InputLabel>Tipo Documento</InputLabel>
-          <Select defaultValue="FACTURA" label="Tipo Documento">
-            <MenuItem value="FACTURA">Factura</MenuItem>
-            <MenuItem value="BOLETA">Boleta</MenuItem>
-          </Select>
-        </FormControl>
-        <TextField label="Serie" size="small" defaultValue="F001" />
-        <TextField label="Correlativo" size="small" defaultValue="0005" />
-        <FormControl fullWidth size="small">
-          <InputLabel>Moneda</InputLabel>
-          <Select defaultValue="Soles" label="Moneda">
-            <MenuItem value="Soles">Soles</MenuItem>
-            <MenuItem value="Dólares">Dólares</MenuItem>
-          </Select>
-        </FormControl>
-        <TextField
-          label="Fecha"
-          type="date"
-          size="small"
-          InputLabelProps={{ shrink: true }}
-        />
-        <TextField
-          label="F. Vencimiento"
-          type="date"
-          size="small"
-          InputLabelProps={{ shrink: true }}
-        />
-      </Box>
+      <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
+        <Typography variant="subtitle1" sx={{ fontWeight: "bold", mb: 2 }}>
+          Información de la Factura
+        </Typography>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)",
+            gap: 2,
+          }}
+        >
+          <FormControl fullWidth size="small">
+            <InputLabel>Tipo Documento</InputLabel>
+            <Select defaultValue="FACTURA" label="Tipo Documento">
+              <MenuItem value="FACTURA">Factura</MenuItem>
+              <MenuItem value="BOLETA">Boleta</MenuItem>
+            </Select>
+          </FormControl>
+          <TextField label="Serie" size="small" defaultValue="F001" />
+          <TextField label="Correlativo" size="small" defaultValue="0005" />
+          <FormControl fullWidth size="small">
+            <InputLabel>Moneda</InputLabel>
+            <Select defaultValue="Soles" label="Moneda">
+              <MenuItem value="Soles">Soles</MenuItem>
+              <MenuItem value="Dólares">Dólares</MenuItem>
+            </Select>
+          </FormControl>
+          <TextField
+            label="Fecha"
+            type="date"
+            size="small"
+            InputLabelProps={{ shrink: true }}
+          />
+          <TextField
+            label="F. Vencimiento"
+            type="date"
+            size="small"
+            InputLabelProps={{ shrink: true }}
+          />
+        </Box>
+      </Paper>
 
       {/* Cliente */}
-      <Box
-        sx={{ display: "grid", gridTemplateColumns: "3fr 1fr", gap: 2, mb: 3 }}
-      >
-        <TextField
-          label="Cliente"
-          size="small"
-          placeholder="Buscar cliente por RUC o razón social"
-        />
-        <Button variant="contained" size="small">
-          Registrar Cliente
-        </Button>
-      </Box>
+      <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
+        <Typography variant="subtitle1" sx={{ fontWeight: "bold", mb: 2 }}>
+          Información del Cliente
+        </Typography>
+        <Box sx={{ display: "grid", gridTemplateColumns: "3fr 1fr", gap: 2 }}>
+          <TextField
+            label="Cliente"
+            size="small"
+            placeholder="Buscar cliente por RUC o razón social"
+          />
+          <Button
+            variant="contained"
+            size="small"
+            startIcon={<PersonAddIcon />}
+            sx={{
+              backgroundColor: "#1e3a8a",
+              "&:hover": { backgroundColor: "#163a6a" },
+            }}
+          >
+            Registrar Cliente
+          </Button>
+        </Box>
+      </Paper>
 
       {/* Producto */}
-      <Box
-        sx={{ display: "grid", gridTemplateColumns: "3fr 1fr", gap: 2, mb: 3 }}
-      >
-        <TextField
-          label="Producto"
-          size="small"
-          placeholder="Buscar producto por código o descripción"
-        />
-        <Button variant="contained" size="small" onClick={agregarProducto}>
-          Agregar Producto
-        </Button>
-      </Box>
+      <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
+        <Typography variant="subtitle1" sx={{ fontWeight: "bold", mb: 2 }}>
+          Productos
+        </Typography>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "3fr 1fr",
+            gap: 2,
+            mb: 3,
+          }}
+        >
+          <TextField
+            label="Producto"
+            size="small"
+            placeholder="Buscar producto por código o descripción"
+          />
+          <Button
+            variant="contained"
+            size="small"
+            startIcon={<AddShoppingCartIcon />}
+            onClick={agregarProducto}
+            sx={{
+              backgroundColor: "#1e3a8a",
+              "&:hover": { backgroundColor: "#163a6a" },
+            }}
+          >
+            Agregar Producto
+          </Button>
+        </Box>
 
-      {/* Tabla */}
-      <TableContainer
-        component={Paper}
-        sx={{ mb: 3, backgroundColor: "background.paper" }}
-      >
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell>Número de Parte</TableCell>
-              <TableCell>Descripción</TableCell>
-              <TableCell align="right">Cantidad</TableCell>
-              <TableCell align="right">Precio Unitario (S/.)</TableCell>
-              <TableCell align="right">Descuento (%)</TableCell>
-              <TableCell align="right">Subtotal (S/.)</TableCell>
-              <TableCell align="center">Acciones</TableCell>
-            </TableRow>
-          </TableHead>
+        {/* Tabla */}
+        <TableContainer component={Paper} sx={{ mb: 3 }}>
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell>Número de Parte</TableCell>
+                <TableCell>Descripción</TableCell>
+                <TableCell align="right">Cantidad</TableCell>
+                <TableCell align="right">Precio Unitario (S/.)</TableCell>
+                <TableCell align="right">Descuento (%)</TableCell>
+                <TableCell align="right">Subtotal (S/.)</TableCell>
+                <TableCell align="center">Acciones</TableCell>
+              </TableRow>
+            </TableHead>
 
-          <TableBody>
-            {productos.map((producto, index) => {
-              const isEditing = editandoIndex === index;
+            <TableBody>
+              {productos.map((producto, index) => {
+                const isEditing = editandoIndex === index;
 
-              return (
-                <TableRow key={index}>
-                  {/* Número de Parte */}
-                  <TableCell>
-                    <Typography>{producto.numeroParte}</Typography>
-                  </TableCell>
+                return (
+                  <TableRow key={index}>
+                    {/* Número de Parte */}
+                    <TableCell>
+                      <Typography>{producto.numeroParte}</Typography>
+                    </TableCell>
 
-                  {/* Descripción */}
-                  <TableCell>
-                    {isEditing ? (
+                    {/* Descripción */}
+                    <TableCell>
+                      {isEditing ? (
+                        <TextField
+                          fullWidth
+                          size="small"
+                          value={descripcionTemp}
+                          onChange={(e) => setDescripcionTemp(e.target.value)}
+                        />
+                      ) : (
+                        <Typography>
+                          {producto.descripcion || <i>Sin descripción</i>}
+                        </Typography>
+                      )}
+                    </TableCell>
+
+                    {/* Cantidad */}
+                    <TableCell align="right">
                       <TextField
-                        fullWidth
+                        type="number"
                         size="small"
-                        value={descripcionTemp}
-                        onChange={(e) => setDescripcionTemp(e.target.value)}
+                        inputProps={{ min: 0 }}
+                        value={producto.cantidad}
+                        onChange={(e) =>
+                          handleProductoChange(
+                            index,
+                            "cantidad",
+                            e.target.value
+                          )
+                        }
                       />
-                    ) : (
-                      <Typography>
-                        {producto.descripcion || <i>Sin descripción</i>}
-                      </Typography>
-                    )}
-                  </TableCell>
+                    </TableCell>
 
-                  {/* Cantidad */}
-                  <TableCell align="right">
-                    <TextField
-                      type="number"
-                      size="small"
-                      inputProps={{ min: 0 }}
-                      value={producto.cantidad}
-                      onChange={(e) =>
-                        handleProductoChange(index, "cantidad", e.target.value)
-                      }
-                    />
-                  </TableCell>
+                    {/* Precio Unitario */}
+                    <TableCell align="right">
+                      <TextField
+                        type="number"
+                        size="small"
+                        inputProps={{ min: 0, step: "0.01" }}
+                        value={producto.precio}
+                        disabled // El precio unitario no es editable
+                      />
+                    </TableCell>
 
-                  {/* Precio Unitario */}
-                  <TableCell align="right">
-                    <TextField
-                      type="number"
-                      size="small"
-                      inputProps={{ min: 0, step: "0.01" }}
-                      value={producto.precio}
-                      disabled // El precio unitario no es editable
-                    />
-                  </TableCell>
+                    {/* Descuento */}
+                    <TableCell align="right">
+                      <TextField
+                        type="number"
+                        size="small"
+                        inputProps={{ min: 0, max: 100, step: "0.1" }}
+                        value={producto.descuento}
+                        onChange={(e) =>
+                          handleProductoChange(
+                            index,
+                            "descuento",
+                            e.target.value
+                          )
+                        }
+                      />
+                    </TableCell>
 
-                  {/* Descuento */}
-                  <TableCell align="right">
-                    <TextField
-                      type="number"
-                      size="small"
-                      inputProps={{ min: 0, max: 100, step: "0.1" }}
-                      value={producto.descuento}
-                      onChange={(e) =>
-                        handleProductoChange(index, "descuento", e.target.value)
-                      }
-                    />
-                  </TableCell>
+                    {/* Subtotal */}
+                    <TableCell align="right">
+                      {producto.subtotal.toFixed(2)}
+                    </TableCell>
 
-                  {/* Subtotal */}
-                  <TableCell align="right">
-                    {producto.subtotal.toFixed(2)}
-                  </TableCell>
-
-                  {/* Acciones */}
-                  <TableCell align="center">
-                    {isEditing ? (
-                      <>
-                        <Button
-                          size="small"
-                          color="success"
-                          onClick={() => {
-                            handleProductoChange(
-                              index,
-                              "descripcion",
-                              descripcionTemp
-                            );
-                            setEditandoIndex(null);
-                          }}
-                        >
-                          Guardar
-                        </Button>
-                        <Button
-                          size="small"
-                          onClick={() => setEditandoIndex(null)}
-                        >
-                          Cancelar
-                        </Button>
-                      </>
-                    ) : (
-                      <>
-                        <IconButton
-                          color="primary"
-                          onClick={() => {
-                            setEditandoIndex(index);
-                            setDescripcionTemp(producto.descripcion);
-                          }}
-                        >
-                          <EditIcon fontSize="small" />
-                        </IconButton>
-                        <IconButton
-                          color="error"
-                          onClick={() => eliminarProducto(index)}
-                        >
-                          <DeleteIcon fontSize="small" />
-                        </IconButton>
-                      </>
-                    )}
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                    {/* Acciones */}
+                    <TableCell align="center">
+                      {isEditing ? (
+                        <>
+                          <Button
+                            size="small"
+                            color="success"
+                            onClick={() => {
+                              handleProductoChange(
+                                index,
+                                "descripcion",
+                                descripcionTemp
+                              );
+                              setEditandoIndex(null);
+                            }}
+                          >
+                            Guardar
+                          </Button>
+                          <Button
+                            size="small"
+                            onClick={() => setEditandoIndex(null)}
+                          >
+                            Cancelar
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          <IconButton
+                            color="primary"
+                            onClick={() => {
+                              setEditandoIndex(index);
+                              setDescripcionTemp(producto.descripcion);
+                            }}
+                          >
+                            <EditIcon fontSize="small" />
+                          </IconButton>
+                          <IconButton
+                            color="error"
+                            onClick={() => eliminarProducto(index)}
+                          >
+                            <DeleteIcon fontSize="small" />
+                          </IconButton>
+                        </>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
 
       <Button
         variant="outlined"
@@ -402,37 +441,48 @@ const Facturacion: React.FC = () => {
       </Button>
 
       {/* Totales */}
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: 2,
-          mb: 3,
-        }}
-      >
-        <TextField
-          label="Subtotal (S/.)"
-          size="small"
-          value={totales.subtotal.toFixed(2)}
-          disabled
-        />
-        <TextField
-          label="IGV (18%)"
-          size="small"
-          value={totales.igv.toFixed(2)}
-          disabled
-        />
-        <TextField
-          label="Total (S/.)"
-          size="small"
-          value={totales.total.toFixed(2)}
-          disabled
-        />
-      </Box>
+      <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
+        <Typography variant="subtitle1" sx={{ fontWeight: "bold", mb: 2 }}>
+          Resumen Financiero
+        </Typography>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: 2,
+          }}
+        >
+          <TextField
+            label="Subtotal (S/.)"
+            size="small"
+            value={totales.subtotal.toFixed(2)}
+            disabled
+          />
+          <TextField
+            label="IGV (18%)"
+            size="small"
+            value={totales.igv.toFixed(2)}
+            disabled
+          />
+          <TextField
+            label="Total (S/.)"
+            size="small"
+            value={totales.total.toFixed(2)}
+            disabled
+          />
+        </Box>
+      </Paper>
 
       {/* Botones */}
       <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
-        <Button variant="contained" size="small">
+        <Button
+          variant="contained"
+          size="small"
+          sx={{
+            backgroundColor: "#1e3a8a",
+            "&:hover": { backgroundColor: "#163a6a" },
+          }}
+        >
           Guardar
         </Button>
         <Button
