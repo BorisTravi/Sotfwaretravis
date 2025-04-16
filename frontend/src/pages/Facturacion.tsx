@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import Logo from "../assets/logo.png";
+import logo from "../../assets/logo.png";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useTheme } from "@mui/material/styles"; //
 import {
@@ -179,7 +179,7 @@ const Facturacion: React.FC = () => {
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
-        <img src={Logo} alt="Logo" style={{ height: 40, marginRight: 16 }} />
+        <img src="'./assets/logo.png" alt="Logo" style={{ height: 40, marginRight: 16 }} />
         <Typography variant="h5" sx={{ fontWeight: "bold", color: "#1e3a8a" }}>
           Facturación Electrónica
         </Typography>
@@ -190,13 +190,7 @@ const Facturacion: React.FC = () => {
         <Typography variant="subtitle1" sx={{ fontWeight: "bold", mb: 2 }}>
           Información de la Factura
         </Typography>
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: 2,
-          }}
-        >
+        <Box sx={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
           <FormControl fullWidth size="small">
             <InputLabel>Tipo Documento</InputLabel>
             <Select defaultValue="FACTURA" label="Tipo Documento">
@@ -213,18 +207,8 @@ const Facturacion: React.FC = () => {
               <MenuItem value="Dólares">Dólares</MenuItem>
             </Select>
           </FormControl>
-          <TextField
-            label="Fecha"
-            type="date"
-            size="small"
-            InputLabelProps={{ shrink: true }}
-          />
-          <TextField
-            label="F. Vencimiento"
-            type="date"
-            size="small"
-            InputLabelProps={{ shrink: true }}
-          />
+          <TextField label="Fecha" type="date" size="small" InputLabelProps={{ shrink: true }} />
+          <TextField label="F. Vencimiento" type="date" size="small" InputLabelProps={{ shrink: true }} />
         </Box>
       </Paper>
 
@@ -234,19 +218,12 @@ const Facturacion: React.FC = () => {
           Información del Cliente
         </Typography>
         <Box sx={{ display: "grid", gridTemplateColumns: "3fr 1fr", gap: 2 }}>
-          <TextField
-            label="Cliente"
-            size="small"
-            placeholder="Buscar cliente por RUC o razón social"
-          />
+          <TextField label="Cliente" size="small" placeholder="Buscar cliente por RUC o razón social" />
           <Button
             variant="contained"
             size="small"
             startIcon={<PersonAddIcon />}
-            sx={{
-              backgroundColor: "#1e3a8a",
-              "&:hover": { backgroundColor: "#163a6a" },
-            }}
+            sx={{ backgroundColor: "#1e3a8a", "&:hover": { backgroundColor: "#163a6a" } }}
           >
             Registrar Cliente
           </Button>
@@ -258,28 +235,14 @@ const Facturacion: React.FC = () => {
         <Typography variant="subtitle1" sx={{ fontWeight: "bold", mb: 2 }}>
           Productos
         </Typography>
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "3fr 1fr",
-            gap: 2,
-            mb: 3,
-          }}
-        >
-          <TextField
-            label="Producto"
-            size="small"
-            placeholder="Buscar producto por código o descripción"
-          />
+        <Box sx={{ display: "grid", gridTemplateColumns: "3fr 1fr", gap: 2, mb: 3 }}>
+          <TextField label="Producto" size="small" placeholder="Buscar producto por código o descripción" />
           <Button
             variant="contained"
             size="small"
             startIcon={<AddShoppingCartIcon />}
             onClick={agregarProducto}
-            sx={{
-              backgroundColor: "#1e3a8a",
-              "&:hover": { backgroundColor: "#163a6a" },
-            }}
+            sx={{ backgroundColor: "#1e3a8a", "&:hover": { backgroundColor: "#163a6a" } }}
           >
             Agregar Producto
           </Button>
@@ -335,11 +298,7 @@ const Facturacion: React.FC = () => {
                         inputProps={{ min: 0 }}
                         value={producto.cantidad}
                         onChange={(e) =>
-                          handleProductoChange(
-                            index,
-                            "cantidad",
-                            e.target.value
-                          )
+                          handleProductoChange(index, "cantidad", e.target.value)
                         }
                       />
                     </TableCell>
@@ -363,11 +322,7 @@ const Facturacion: React.FC = () => {
                         inputProps={{ min: 0, max: 100, step: "0.1" }}
                         value={producto.descuento}
                         onChange={(e) =>
-                          handleProductoChange(
-                            index,
-                            "descuento",
-                            e.target.value
-                          )
+                          handleProductoChange(index, "descuento", e.target.value)
                         }
                       />
                     </TableCell>
@@ -445,13 +400,7 @@ const Facturacion: React.FC = () => {
         <Typography variant="subtitle1" sx={{ fontWeight: "bold", mb: 2 }}>
           Resumen Financiero
         </Typography>
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: 2,
-          }}
-        >
+        <Box sx={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
           <TextField
             label="Subtotal (S/.)"
             size="small"
@@ -475,14 +424,7 @@ const Facturacion: React.FC = () => {
 
       {/* Botones */}
       <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
-        <Button
-          variant="contained"
-          size="small"
-          sx={{
-            backgroundColor: "#1e3a8a",
-            "&:hover": { backgroundColor: "#163a6a" },
-          }}
-        >
+        <Button variant="contained" size="small" sx={{ backgroundColor: "#1e3a8a", "&:hover": { backgroundColor: "#163a6a" } }}>
           Guardar
         </Button>
         <Button
