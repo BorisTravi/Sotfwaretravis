@@ -398,7 +398,7 @@ const Facturacion: React.FC = () => {
       {/* Totales */}
       <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
         <Typography variant="subtitle1" sx={{ fontWeight: "bold", mb: 2 }}>
-          Resumen Financiero
+          Resumen Financierodffgfdgdfgdfgdfgdfgdfgdfgdgdgdgdf Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore ullam totam id, tempore ipsum accusantium. Ex atque dolor ad veniam. Tempora eligendi, nihil atque adipisci alias molestiae officiis quas nesciunt.
         </Typography>
         <Box sx={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
           <TextField
